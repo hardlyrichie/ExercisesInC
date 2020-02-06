@@ -39,9 +39,9 @@ int main()
     int *array = foo();
     bar();
 
-    for (i=0; i<SIZE; i++) {
-        printf("%d\n", array[i]);
-    }
+    // for (i=0; i<SIZE; i++) {
+    //     printf("%d\n", array[i]);
+    // }
 
     return 0;
 }

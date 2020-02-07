@@ -65,6 +65,8 @@ int main()
    
    s: pointer to first element in string to convert
    num: pointer to the integer that we will store result in
+
+   returns: -1 error, 0 everything went well
 */
 int stringToInt(char *s, int *num){
     char *end;
@@ -80,6 +82,8 @@ int stringToInt(char *s, int *num){
    
    a: pointer to first element in int array
    size: size of the array
+
+   returns: total sum
 */
 int sum(int *a, int size) {
     // Add up the numbers in the array

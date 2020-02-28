@@ -1,5 +1,5 @@
-#include "../minunit.h"
-#include "util.h"
+#include "minunit.h"
+#include "trout/util.h"
 #include <string.h>
 
 static char *test() {

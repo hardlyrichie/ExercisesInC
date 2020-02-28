@@ -7,5 +7,5 @@ util.o: util.h util.c trout.c
 main.o: main.c util.h trout.h
 	gcc -c main.c
 
-trout: trout.o util.o main.c
+trout: trout.o util.o main.o
 	gcc -Wall -g -o trout trout.o util.o main.o

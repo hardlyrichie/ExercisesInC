@@ -1,3 +1,4 @@
+#include "util.h"
 #include "trout.h"
 #include <unistd.h>
 

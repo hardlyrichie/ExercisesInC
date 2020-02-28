@@ -29,10 +29,6 @@ typedef struct rec {                /* outgoing UDP data */
 typedef struct timeval Timeval;
 typedef struct sockaddr Sockaddr;
 
-/* the following are a few definitions from Stevens' unp.h */
-
-typedef	void Sigfunc(int);        /* for signal handlers */
-
 #define max(a,b) ((a) > (b) ? (a) : (b))
 
 void loop_ttl ();

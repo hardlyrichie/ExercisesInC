@@ -19,6 +19,10 @@
 #include <stdarg.h>
 #include <syslog.h>
 
+/* the following are a few definitions from Stevens' unp.h */
+
+typedef	void Sigfunc(int);        /* for signal handlers */
+
 /* the following are prototypes for the Stevens utilities in util.c */
 
 char *Sock_ntop_host(const struct sockaddr *sa, socklen_t salen);

@@ -30,8 +30,13 @@ typedef regex_t Regex;
 * returns: new Regex
 */
 Regex *make_regex(char *pattern, int flags) {
-    // FILL THIS IN!
-    return NULL;
+    Regex *regex = malloc(sizeof(Regex));
+    int ret = regcomp(regex, pattern, flags);
+    if (ret) {
+        fprintf(stderr, "Could not compile regex\n");
+        exit(1);
+    }
+    return regex;
 }
 
 /* Checks whether a regex matches a string.
@@ -41,8 +46,15 @@ Regex *make_regex(char *pattern, int flags) {
 * returns: 1 if there's a match, 0 otherwise
 */
 int regex_match(Regex *regex, char *s) {
-    // FILL THIS IN!
-    return 0;
+    int ret = regexec(regex, s, 0, NULL, 0);
+    if (!ret) {
+        return 1;
+    } else if (ret == REG_NOMATCH) {
+        return 0;
+    } else {
+        fprintf(stderr, "Regex match failed");
+        exit(1);
+    }
 }
 
 /* Frees a Regex.
@@ -50,7 +62,7 @@ int regex_match(Regex *regex, char *s) {
 * regex: Regex pointer
 */
 void regex_free(Regex *regex) {
-    // FILL THIS IN!
+    free(regex);
 }
 
 

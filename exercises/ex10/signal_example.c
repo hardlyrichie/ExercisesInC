@@ -19,6 +19,7 @@ Based on an example in Head First C.
 #include <signal.h>
 
 int score = 0;
+int one_more = 0;
 
 /* Set up a signal handler.
 
@@ -44,8 +45,8 @@ void end_game(int sig)
 /* Signal handler: Notify the user and raise SIGINT.
 */
 void times_up(int sig) {
-    puts("\nTIME'S UP!");
-    raise(SIGINT);
+    puts("\nTIME'S UP! You have one more question.");
+    one_more = 1;
 }
 
 int main(void) {
@@ -85,6 +86,10 @@ int main(void) {
             printf("\nWrong!\n");
         }
         printf("Score: %i\n", score);
+
+        if (one_more) {
+            raise(SIGINT);
+        }
     }
     return 0;
 }

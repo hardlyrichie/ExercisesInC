@@ -14,10 +14,18 @@ License: MIT License https://opensource.org/licenses/MIT
 #include <sys/types.h>
 #include <wait.h>
 
+/*
+It doesn't seem that parent and child processes share any global, heap, or stack
+variables. I defined them all in the parent, changed the variables in the child
+processes, and printed out the variables again in the parent after all the child
+processes have died. However, the values haven't been updated. Therefore, they
+are not the same.
+*/
 
 // errno is an external global variable that contains
 // error information
 extern int errno;
+int global;
 
 
 // get_seconds returns the number of seconds since the
@@ -45,6 +53,11 @@ int main(int argc, char *argv[])
     pid_t pid;
     double start, stop;
     int i, num_children;
+    int *heap = malloc(sizeof(int));
+    int stack;
+    global = 1;
+    *heap = 2;
+    stack = 3;
 
     // the first command-line argument is the name of the executable.
     // if there is a second, it is the number of children to create.
@@ -73,12 +86,21 @@ int main(int argc, char *argv[])
         /* see if we're the parent or the child */
         if (pid == 0) {
             child_code(i);
+            global++;
+            *heap += 1;
+            stack++;    
+            printf("Child Global: %i Global address: %p\n", global, &global);
+            printf("Child Heap: %i Heap address: %p\n", *heap, &heap);
+            printf("Child Stack: %i Stack address: %p\n", stack, &stack);
             exit(i);
         }
     }
 
     /* parent continues */
     printf("Hello from the parent.\n");
+    printf("Parent Global: %i Global address: %p\n", global, &global);
+    printf("Parent Heap: %i Heap address: %p\n", *heap, &heap);
+    printf("Parent Stack: %i Stack address: %p\n", stack, &stack);
 
     for (i=0; i<num_children; i++) {
         pid = wait(&status);
@@ -93,6 +115,11 @@ int main(int argc, char *argv[])
         status = WEXITSTATUS(status);
         printf("Child %d exited with error code %d.\n", pid, status);
     }
+
+    printf("Parent Global: %i Global address: %p\n", global, &global);
+    printf("Parent Heap: %i Heap address: %p\n", *heap, &heap);
+    printf("Parent Stack: %i Stack address: %p\n", stack, &stack);
+
     // compute the elapsed time
     stop = get_seconds();
     printf("Elapsed time = %f seconds.\n", stop - start);
